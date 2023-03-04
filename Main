@@ -1,0 +1,267 @@
+import csv
+from datetime import datetime
+
+
+class Pizza:
+    def __init__(self, cost=None, description=None):
+        self.cost = cost
+        self.description = description
+
+    def get_cost(self):
+        pass
+
+    def get_description(self):
+        pass
+
+
+class Classic_Pizza(Pizza):
+
+    def __init__(self):
+        super().__init__()
+        self.cost = 60
+        self.description = "Classic Pizza"
+
+    def get_cost(self):
+        return self.cost
+
+    def get_description(self):
+        return self.description
+
+
+class Margherita_Pizza(Pizza):
+
+    def __init__(self):
+        super().__init__()
+        self.cost = 55
+        self.description = "Margherita Pizza"
+
+    def get_cost(self):
+        return self.cost
+
+    def get_description(self):
+        return self.description
+
+
+class Turk_Pizza(Pizza):
+
+    def __init__(self):
+        super().__init__()
+        self.cost = 75
+        self.description = "Turk Pizza"
+
+    def get_cost(self):
+        return self.cost
+
+    def get_description(self):
+        return self.description
+
+
+class Dominos_Pizza(Pizza):
+
+    def __init__(self):
+        super().__init__()
+        self.cost = 70
+        self.description = "Dominos Pizza"
+
+    def get_cost(self):
+        return self.cost
+
+    def get_description(self):
+        return self.description
+
+
+class Decorator(Pizza):
+
+    def __init__(self):
+        super().__init__()
+
+    def get_cost(self):
+        pass
+
+    def get_description(self):
+        pass
+
+
+class Olives(Decorator):
+
+    def __init__(self):
+        super().__init__()
+        self.cost = 3
+        self.description = "Olives"
+
+    def get_cost(self):
+        return self.cost
+
+    def get_description(self):
+        return self.description
+
+
+class Mushrooms(Decorator):
+
+    def __init__(self):
+        super().__init__()
+        self.cost = 4
+        self.description = "Mushrooms"
+
+    def get_cost(self):
+        return self.cost
+
+    def get_description(self):
+        return self.description
+
+
+class Goat_Cheese(Decorator):
+
+    def __init__(self):
+        super().__init__()
+        self.cost = 4
+        self.description = "Goat Cheese"
+
+    def get_cost(self):
+        return self.cost
+
+    def get_description(self):
+        return self.description
+
+
+class Meat(Decorator):
+
+    def __init__(self):
+        super().__init__()
+        self.cost = 5
+        self.description = "Meat"
+
+    def get_cost(self):
+        return self.cost
+
+    def get_description(self):
+        return self.description
+
+
+class Onions(Decorator):
+
+    def __init__(self):
+        super().__init__()
+        self.cost = 3
+        self.description = "Onions"
+
+    def get_cost(self):
+        return self.cost
+
+    def get_description(self):
+        return self.description
+
+
+class Corn(Decorator):
+
+    def __init__(self):
+        super().__init__()
+        self.cost = 2
+        self.description = "Corn"
+
+    def get_cost(self):
+        return self.cost
+
+    def get_description(self):
+        return self.description
+
+
+def main():
+    while True:
+        with open("Menu.txt") as file:
+            content = file.read()
+            menu = content.splitlines()
+            for i in range(5):
+                print(menu[i])
+
+        pizza_choice = int(input(""))
+
+        if pizza_choice == 1:
+            pizza = Classic_Pizza()
+            break
+        elif pizza_choice == 2:
+            pizza = Margherita_Pizza()
+            break
+        elif pizza_choice == 3:
+            pizza = Turk_Pizza()
+            break
+        elif pizza_choice == 4:
+            pizza = Dominos_Pizza()
+            break
+        else:
+            print("Invalid number!")
+            continue
+    total_cost = pizza.get_cost()
+    sauce_costs = []
+    while True:
+        for i in range(5, 14):
+            print(menu[i])
+
+        souce_choice = input("")
+
+        if int(souce_choice) == 1:
+            sauce = Olives()
+            sauce_costs.append(sauce.get_cost())
+            print("Do you want extra sauce?")
+        elif int(souce_choice) == 2:
+            sauce = Mushrooms()
+            sauce_costs.append(sauce.get_cost())
+            print("Do you want extra sauce?")
+        elif int(souce_choice) == 3:
+            sauce = Goat_Cheese()
+            sauce_costs.append(sauce.get_cost())
+            print("Do you want extra sauce?")
+        elif int(souce_choice) == 4:
+            sauce = Meat()
+            sauce_costs.append(sauce.get_cost())
+            print("Do you want extra sauce?")
+        elif int(souce_choice) == 5:
+            sauce = Onions()
+            sauce_costs.append(sauce.get_cost())
+            print("Do you want extra sauce?")
+        elif int(souce_choice) == 6:
+            sauce = Corn()
+            sauce_costs.append(sauce.get_cost())
+            print("Do you want extra sauce?")
+        elif int(souce_choice) == 0:
+            print("Your Pizza is being prepared!")
+            break
+        else:
+            print("Invalid number!")
+
+    for i in range(len(sauce_costs)):
+        k = 0
+        total_cost += sauce.get_cost()
+        k += 1
+    print("Total Cost is ", total_cost, " TL!")
+
+    user_name = input("What is Your Name: ")
+    user_ID_number = int(input("What is Your ID Number: "))
+    while True:
+        user_credit_card_number = input("Please Enter Credit Card Number: ")
+        if len(user_credit_card_number) == 16:
+            break
+        else:
+            print("Invalid Number! Credit Card Number should be a 16 digit.")
+    user_credit_card_password = input("Please Enter Credit Card Password: ")
+
+    order_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    order_description = pizza.description
+
+    with open("Orders_Database.csv", mode="a", newline="") as csv_file:
+
+        writer = csv.writer(csv_file)
+
+        if csv_file.tell() == 0:
+            writer.writerow(["Name", "User ID", "Credit Card Number", "Total Cost", "Order Description", "Order Time",
+                             "Credit Card Password"])
+
+        data = [{"Name": user_name, "User ID": user_ID_number, "Credit Card Number": user_credit_card_number,
+                 "Credit Card Password": user_credit_card_password, "Total Cost": total_cost,
+                 "Order Description": order_description, "Order Time": order_time}]
+
+        for dt in data:
+            writer.writerow(dt.values())
+
+if __name__ == "__main__":
+    main()
